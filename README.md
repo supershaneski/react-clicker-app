@@ -6,6 +6,10 @@ It saves the game state in localStorage.
 
 This React project is bootstrapped using [Vite](https://vitejs.dev/guide/).
 
+# Motivation
+
+This is a coding exercise and although it is basically working, still a work in progress.
+
 # State Management
 
 I am using [Zustand](https://github.com/pmndrs/zustand) to handle global state management.
@@ -13,8 +17,6 @@ I am using [Zustand](https://github.com/pmndrs/zustand) to handle global state m
 ```sh
 $ npm install zustand
 ```
-
-> This is a work in progress...
 
 # Getting Started
 
