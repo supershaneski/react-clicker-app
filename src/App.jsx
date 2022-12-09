@@ -10,15 +10,15 @@ import generator from './lib/generator'
 
 const App = () => {
   
-  const powerGen = React.useRef(new generator(2, 10, 0, 5, 100))
-  const autoGen = React.useRef(new generator(2, 0.001, 0, 5, 100))
+  const powerGen = React.useRef(new generator(2, 11, 0, 5, 100))
+  const autoGen = React.useRef(new generator(2, 0.001, 0, 6, 100))
 
   const [start, setStart] = React.useState(false)
   const [spawns, setSpawns] = React.useState([])
 
   const tick = useTickStore((state) => state.tick)
   const power = useTickStore((state) => state.power)
-  const perMs = useTickStore((state) => state.perMs)
+  const rate = useTickStore((state) => state.rate)
   
   const auto = useTickStore((state) => state.auto)
   const ticks = useTickStore((state) => state.ticks)
@@ -26,7 +26,7 @@ const App = () => {
   
   const buy = useTickStore((state) => state.buy)
   const setPower = useTickStore((state) => state.setPower)
-  const setPerMs = useTickStore((state) => state.setPerMs)
+  const setRate = useTickStore((state) => state.setRate)
 
   React.useEffect(() => {
 
@@ -37,7 +37,7 @@ const App = () => {
 
       let _tick = savedData?.tick || null
       let _power = savedData?.power || null
-      let _perMs = savedData?.perMs || null
+      let _rate = savedData?.rate || null
 
       let _powerLevel = savedData?.powerLevel || 0
       let _autoLevel = savedData?.autoLevel || 0
@@ -45,7 +45,7 @@ const App = () => {
       powerGen.current.setLevel(_powerLevel)
       autoGen.current.setLevel(_autoLevel)
 
-      reset(_tick, _power, _perMs)
+      reset(_tick, _power, _rate)
 
     }
 
@@ -110,7 +110,7 @@ const App = () => {
     localStorage.setItem("saved-tick", JSON.stringify({ 
       tick,
       power,
-      perMs,
+      rate,
       powerLevel,
       autoLevel,
       autoGenerator: [powerParam],
@@ -122,7 +122,7 @@ const App = () => {
   }, [tick])
 
   const handleClick = (e) => {
-    
+
     let items = spawns.slice(0)
     items.push({
       x: e.clientX,
@@ -156,9 +156,9 @@ const App = () => {
   }
 
   const autoButtonText = () => {
-    const _perMs = (autoGen.current.getNextValue()).toLocaleString()
+    const _rate = (autoGen.current.getNextValue()).toLocaleString()
     const _price = (autoGen.current.getNextPrice()).toLocaleString()
-    return `${_perMs} ¥${_price}`
+    return `+${_rate}P ¥${_price}`
   }
 
   const autoButtonEnabled = () => {
@@ -167,10 +167,10 @@ const App = () => {
   }
 
   const autoButtonClick = () => {
-    const _perMs = autoGen.current.getNextValue()
+    const _rate = autoGen.current.getNextValue()
     const _price = autoGen.current.getNextPrice()
     buy(_price)
-    setPerMs(_perMs)
+    setRate(_rate)
     autoGen.current.update()
   }
 

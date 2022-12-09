@@ -5,13 +5,13 @@ const useTickStore = create((set) => {
     return {
         tick: 0,
         power: 10,
-        perMs: 0,
-        reset: (ti, po, pe) => set((state) => ({ tick: ti || state.tick, power: po || state.power, perMs: pe || state.perMs })),
-        buy: (v) => set((state) => ({ tick: state.tick - v })),
-        setPower: (v) => set((state) => ({ power: v })),
-        setPerMs: (inc) => set((state) => ({ perMs: state.perMs + inc })),
+        rate: 0,
+        reset: (_tick, _power, _rate) => set((state) => ({ tick: _tick || state.tick, power: _power || state.power, rate: _rate || state.rate })),
+        buy: (cost) => set((state) => ({ tick: state.tick - cost })),
+        setPower: (v) => set((_) => ({ power: v })),
+        setRate: (inc) => set((state) => ({ rate: state.rate + inc })),
         ticks: () => set((state) => ({ tick: formatTick(state.tick + state.power) })),
-        auto: (deltaTime) => set((state) => ({ tick: formatTick(state.tick + (deltaTime * state.perMs))}))
+        auto: (deltaTime) => set((state) => ({ tick: formatTick(state.tick + (deltaTime * state.rate))}))
     }
 })
 
