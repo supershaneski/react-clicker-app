@@ -44,7 +44,7 @@ const App = () => {
 
       powerGen.current.setLevel(_powerLevel)
       autoGen.current.setLevel(_autoLevel)
-
+      
       reset(_tick, _power, _rate)
 
     }
@@ -101,12 +101,17 @@ const App = () => {
 
   React.useEffect(() => {
 
+    // No need to save before the game started.
+    if(!start) {
+      return
+    }
+
     const powerLevel = powerGen.current.getLevel()
     const autoLevel = autoGen.current.getLevel()
     
     const powerParam = powerGen.current.getParam()
     const autoParam = autoGen.current.getParam()
-
+    
     localStorage.setItem("saved-tick", JSON.stringify({ 
       tick,
       power,
